@@ -1,7 +1,7 @@
 
 # 🚀 DAS - Technische Opdracht
 
-**Live demo:** [https://dasdemo-test-app.azurewebsites.net](https://dasdemo-test-app.azurewebsites.net)
+**Live demo:** https://dasdemo-test-app.azurewebsites.net
 
 ---
 
