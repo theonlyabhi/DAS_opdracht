@@ -1,0 +1,5 @@
+prefix          = "dasdemo"
+image_name      = "abhi-hello"
+subscription_id = "690ce1b5-5ac5-46d5-a5cc-93bdfa539377"
+environment     = "test"
+project         = "das"
