@@ -7,7 +7,7 @@
 
 ## 📌 Over dit project
 
-Deze repository bevat een complete cloud-native webapplicatie gebaseerd op **Python (Flask)** die gecontaineriseerd is met **Docker** en uitgerold wordt op **Azure** via **Terraform**. De infrastructuur is volledig als code beschreven en omvat monitoring, veilige opslag van secrets en best practices op het gebied van cloudbeveiliging.
+Deze repo bevat een Python Flask webapplicatie die het bericht "Hello from Abhishek!" toont. De applicatie is gecontaineriseerd met Docker en uitgerold in Azure via Terraform. De infrastructuur bestaat uit een resource group, een Azure Container Registry (ACR) voor het opslaan van Docker images, een App Service Plan en een App Service die draait met een managed identity. Voor monitoring is Application Insights gebruikt en gevoelige gegevens zoals secrets worden veilig opgeslagen in een Azure Key Vault. De App Service haalt deze secrets op via Key Vault referenties in de app settings, waarbij de managed identity toegang heeft tot de Key Vault. Voor extra beveiliging draait de container als non root user, worden secrets niet hardcoded maar via app settings geinjecteerd, is HTTPS standaard ingeschakeld en worden uitsluitend images uit de eigen container registry gebruikt. Daarnaast is er een Azure Storage Account en een private container aangemaakt voor het opslaan van de Terraform state file.
 
 De applicatie toont een eenvoudige boodschap:
 
@@ -21,20 +21,6 @@ De applicatie toont een eenvoudige boodschap:
 - **Containerisatie:** Docker
 - **Infrastructure as Code:** Terraform
 - **Cloud Platform:** Microsoft Azure (App Service, ACR, Key Vault, Application Insights, Storage Account)
-
----
-
-## 🧱 Best Practices
-
-- ✅ Infrastructure as Code via Terraform
-- ✅ Secrets niet hardcoded
-- ✅ Alleen private registries toegestaan
-- ✅ Gebruik van HTTPS-only App Service
-- ✅ Container draait als non-root gebruiker
-- ✅ Monitoring via Application Insights
-- ✅ Role-based access met Managed Identity
-- ✅ Terraform state beveiligd en gelocked
-- ✅ Tags en omgevingsscheiding via workspaces
 
 ---
 
