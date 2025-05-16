@@ -33,7 +33,8 @@ De applicatie toont een eenvoudige boodschap:
 - 🔒 Terraform backend gebruikt **Storage Account + container** met locking voor statefiles
 - 🔒 **Managed Identity** gebruikt in plaats van service principal credentials
 - 🔒 Key Vault alleen toegankelijk voor toegewezen identiteiten
-- 🔒 Geen gevoelige gegevens in sourcecode
+- 🔒 De Terraform state file wordt opgeslagen in een beveiligde Azure Storage Account met een private container. Dit zorgt voor veilige opslag, versiebeheer en locking van de infrastructuurstatus
+  
 
 ---
 
