@@ -1,105 +1,158 @@
-# DAS - Technische Opdracht
 
-Link to project: https://dasdemo-test-app.azurewebsites.net/
+# 🚀 DAS - Technische Opdracht
 
-Deze repo bevat een Python Flask webapplicatie die het bericht "Hello from Abhishek!" toont. De applicatie is gecontaineriseerd met Docker en uitgerold in Azure via Terraform. De infrastructuur bestaat uit een resource group, een Azure Container Registry (ACR) voor het opslaan van Docker images, een App Service Plan en een App Service die draait met een managed identity. Voor monitoring is Application Insights gebruikt en gevoelige gegevens zoals secrets worden veilig opgeslagen in een Azure Key Vault. De App Service haalt deze secrets op via Key Vault referenties in de app settings, waarbij de managed identity toegang heeft tot de Key Vault. Voor extra beveiliging draait de container als non root user, worden secrets niet hardcoded maar via app settings geinjecteerd, is HTTPS standaard ingeschakeld en worden uitsluitend images uit de eigen container registry gebruikt. Daarnaast is er een Azure Storage Account en een private container aangemaakt voor het opslaan van de Terraform state file. Omdat Terraform vereist dat de backend al bestaat voordat deze geconfigureerd kan worden, zijn de storage account en container eerst uitgerold. Vervolgens is de backend configuratie opgenomen in het terraform block zelf, zodat de state file automatisch wordt beheerd in Azure Storage.
+**Live demo:** [https://dasdemo-test-app.azurewebsites.net](https://dasdemo-test-app.azurewebsites.net)
 
-## Gebruikte technologieen
+---
 
-- **Python/Flask** - Webapplicatie
-- **Docker** - Containerisatie van de app
-- **Terraform** - Infrastructure as Code 
-- **Azure**:
-    - Resource Group
-    - Container Registry
-    - App Service
-    - App Service Plan
-    - Application Insights
-    - Role Assignment
-    - Managed Identity Configuration
-    - Key Vault
-    - Storage Account
+## 📌 Over dit project
 
-## Deploy stappen
+Deze repository bevat een complete cloud-native webapplicatie gebaseerd op **Python (Flask)** die gecontaineriseerd is met **Docker** en uitgerold wordt op **Azure** via **Terraform**. De infrastructuur is volledig als code beschreven en omvat monitoring, veilige opslag van secrets en best practices op het gebied van cloudbeveiliging.
 
-1. **Terraform configuratie uitvoeren**
+De applicatie toont een eenvoudige boodschap:
 
-    Ga naar de terraform map en voer uit:
-    ```bash
-    # Terraform initialisatie
-    terraform init
-    terraform validate
-    terraform workspace new test
-    terraform plan
-    terraform apply
+> “Hello from Abhishek!”
 
-    # Azure login
-    az login
-    az acr login --name dasdemotestacr
+---
 
-    # Docker build & push
-    docker build -t dasdemotestacr.azurecr.io/abhi-hello:latest .
-    docker push dasdemotestacr.azurecr.io/abhi-hello:latest
-    ```
-    
-2. **Bezoek de applicatie**
+## 🧰 Tech Stack
 
-    Na deployment kun je app service url openen in je browser.
+- **Backend:** Python (Flask)
+- **Containerisatie:** Docker
+- **Infrastructure as Code:** Terraform
+- **Cloud Platform:** Microsoft Azure (App Service, ACR, Key Vault, Application Insights, Storage Account)
 
-## Veiligheid 
+---
 
-- Container draait als non-root user
-- Secrets worden via app settings geinjecteerd
-- HTTPS standaard ingeschakeld via Azure App Service
-- Alleen images uit eigen registry worden gebruikt
-- Managed Identity wordt gebruikt voor App Service om images te pullen uit Azure Container Registry (ACR)
-- Tags zijn toegevoegd aan alle resources voor betere organisatie en beheer
-- Gebruik gemaakt van Terraform workspaces voor meerdere omgevingen (dev, test, prod)
-- De sleutels van Application Insights worden veilig opgeslagen in Azure Key Vault. De App Service haalt deze op via een managed identity en Key Vault referenties in de app settings
-- De Terraform state file wordt opgeslagen in een beveiligde Azure Storage Account met een private container. Dit zorgt voor veilige opslag, versiebeheer en locking van de infrastructuurstatus.
+## 🧱 Best Practices
 
-### Monitoring en Troubleshooting
+- ✅ Infrastructure as Code via Terraform
+- ✅ Secrets niet hardcoded
+- ✅ Alleen private registries toegestaan
+- ✅ Gebruik van HTTPS-only App Service
+- ✅ Container draait als non-root gebruiker
+- ✅ Monitoring via Application Insights
+- ✅ Role-based access met Managed Identity
+- ✅ Terraform state beveiligd en gelocked
+- ✅ Tags en omgevingsscheiding via workspaces
 
-#### Application Insights
-Application Insights is geïntegreerd met de App Service en biedt uitgebreide inzichten in de prestaties en het gedrag van de applicatie.
+---
 
-**Wat je kunt doen:**
-- Live Metrics Stream
-- Failures analyseren
-- Performance per endpoint
-- Logs zoeken met KQL
+## 🔐 Veiligheid
 
-**Toegang:**
-1. Ga naar de Azure Portal.
-2. Navigeer naar de Application Insights resource.
-3. Gebruik het menu aan de linkerkant.
+- 🔒 App draait als **non-root** gebruiker
+- 🔒 **Secrets** worden opgehaald via **Key Vault referenties**
+- 🔒 Alleen images uit **private ACR**
+- 🔒 HTTPS geforceerd
+- 🔒 Terraform backend gebruikt **Storage Account + container** met locking
+- 🔒 **Managed Identity** gebruikt in plaats van service principal credentials
+- 🔒 Key Vault alleen toegankelijk voor toegewezen identiteiten
+- 🔒 Geen gevoelige gegevens in sourcecode
 
-#### App Service Logging
-De App Service verzamelt container logs.
+---
 
-**Wat je kunt doen:**
-- Live logs bekijken via Log Stream
-- Diagnostische logs inschakelen
+## 🧪 Monitoring
 
-**Toegang:**
-1. Ga naar de Azure Portal.
-2. Navigeer naar de App Service.
-3. Klik op Log stream.
+### Application Insights
 
+- Real-time metrics en logging
+- Traceer fouten, afhankelijkheden en requests
+- Integratie via environment variables
+- KQL (Kusto Query Language) support
 
-## Structuur
+Toegang:
+
+1. Ga naar de Azure Portal
+2. Open je Application Insights resource
+3. Gebruik “Live Metrics”, “Failures”, “Performance”, etc.
+
+### App Service Logging
+
+- Log Stream toont stdout/stderr van de container
+- Beschikbaar via Azure Portal → App Service → **Log Stream**
+
+---
+
+## 🚀 Getting Started
+
+---
+
+## ⚙️ Prerequisites (alleen voor eerste setup)
+
+1. Omdat Terraform vereist dat de backend al bestaat voordat deze geconfigureerd kan worden, zijn de storage account en container eerst uitgerold. Vervolgens is de backend configuratie opgenomen in het terraform block zelf, zodat de state file automatisch wordt beheerd in Azure Storage.
 ```
--app\
-    -main.py
--terraform\
-    -main.tf
-    -locals.tf
-    -variables.tf
-    -terraform.tfvars
--Dockerfile
--requirements.txt
--README.md
-```
-## Auteur
 
-Abhishek Kaul Kumar
+2. Login bij Azure:
+
+```bash
+az login
+```
+
+---
+
+## 🛠️ Installatie
+
+```bash
+cd terraform
+
+terraform init
+terraform validate
+terraform workspace new test
+terraform plan
+terraform apply
+```
+
+---
+
+## 🐳 Docker container builden & pushen
+
+```bash
+az acr login --name dasdemotestacr
+
+docker build -t dasdemotestacr.azurecr.io/abhi-hello:latest .
+docker push dasdemotestacr.azurecr.io/abhi-hello:latest
+```
+
+---
+
+## 🧪 Lokaal draaien (optioneel)
+
+```bash
+docker build -t abhi-hello .
+docker run -p 80:80 abhi-hello
+```
+
+Ga dan naar: [http://localhost:80](http://localhost:80)
+
+---
+
+## 📁 Projectstructuur
+
+```text
+.
+├── app/
+│   └── main.py
+├── terraform/
+│   ├── main.tf
+│   ├── locals.tf
+│   ├── variables.tf
+│   └── terraform.tfvars
+├── Dockerfile
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 👤 Contact
+
+**Auteur:** Abhishek Kaul Kumar  
+📧 abhi586@outlook.com 
+
+---
+
+## ✅ Status
+
+✅ Volledig werkend, veilig en schaalbaar uitgerold op Azure  
+📡 Monitoring geactiveerd  
+🔒 Beveiliging met best practices geïmplementeerd  
