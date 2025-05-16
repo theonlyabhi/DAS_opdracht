@@ -44,7 +44,7 @@ De applicatie toont een eenvoudige boodschap:
 - 🔒 **Secrets** worden opgehaald via **Key Vault referenties**
 - 🔒 Alleen images uit **private ACR**
 - 🔒 HTTPS geforceerd
-- 🔒 Terraform backend gebruikt **Storage Account + container** met locking
+- 🔒 Terraform backend gebruikt **Storage Account + container** met locking voor statefiles
 - 🔒 **Managed Identity** gebruikt in plaats van service principal credentials
 - 🔒 Key Vault alleen toegankelijk voor toegewezen identiteiten
 - 🔒 Geen gevoelige gegevens in sourcecode
